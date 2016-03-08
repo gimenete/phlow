@@ -46,10 +46,24 @@ pify(fs.readdir)(homedir)
         fs.existsSync(path.join(homedir, dir, 'phlow.json'))
       ))
       .map((dir) => ({
-        dir: dir,
+        file: path.join(homedir, dir, 'phlow.json'),
         distance: levenshtein.get(dir, project)
       }))
       .sort((a, b) => a.distance - b.distance)[0]
+  ))
+  .then((closest) => (
+    pify(fs.readdir)(path.join(os.homedir(), '.phlow'))
+      .then((files) => (
+        files.map((file) => ({
+          file: path.join(os.homedir(), '.phlow', file),
+          distance: levenshtein.get(path.basename(file, '.json'), project)
+        }))
+        .sort((a, b) => a.distance - b.distance)[0]
+      ))
+      .then((closestf) => (
+        closestf && (!closest || closestf.distance < closest.distance) ? closestf : closest
+      ))
+      .catch(() => closest)
   ))
   .then((closest) => (
     closest || Promise.reject('No directory found with a name like that with a phlow.json file')
@@ -59,7 +73,7 @@ pify(fs.readdir)(homedir)
       var question = {
         type: 'confirm',
         name: 'confirm',
-        message: `About to run ${path.join(homedir, closest.dir, 'phlow.json')}. Please confirm`,
+        message: `About to run ${closest.file}. Please confirm`,
         default: true
       }
       inquirer.prompt([question], (answer) => {

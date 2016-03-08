@@ -1,6 +1,6 @@
 {
   "name": "phlow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get to work as quick as possible",
   "main": "index.js",
   "scripts": {
