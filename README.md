@@ -14,7 +14,7 @@ npm install phlow -g
 
 Create a `phlow.json` file in the working directory of your project like this one
 
-```
+```json
 {
   "iTerm": {
     "tabs": [
