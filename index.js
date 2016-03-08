@@ -8,7 +8,8 @@ var levenshtein = require('fast-levenshtein')
 var osascript = require('osascript-promise')
 var inquirer = require('inquirer')
 
-function buildScript (config, dir) {
+function buildScript (config, file) {
+  var dir = config.dir || path.dirname(file)
   var lines = []
   if (config.iTerm) {
     lines.push('tell application "iTerm"')
@@ -83,9 +84,9 @@ pify(fs.readdir)(homedir)
     })
   ))
   .then((closest) => (
-    pify(fs.readFile)(path.join(homedir, closest.dir, 'phlow.json'), 'utf8')
+    pify(fs.readFile)(closest.file, 'utf8')
       .then((config) => (
-        osascript(buildScript(JSON.parse(config), path.join(homedir, closest.dir)))
+        osascript(buildScript(JSON.parse(config), closest.file))
       ))
   ))
   .catch((err) => {

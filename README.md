@@ -21,6 +21,7 @@ A configuration file looks like this
 
 ```json
 {
+  "dir": "/Users/gimenete/projects/backbeam-lambda-ui",
   "iTerm": {
     "tabs": [
       {
@@ -52,7 +53,7 @@ A configuration file looks like this
 So you could save that file as:
 
 * `~/.phlow/project_name.json`
-* Or `$PHLOW_HOMEDIR/project_name/phlow.json`
+* Or `$PHLOW_HOMEDIR/project_name/phlow.json`. In this case you don't need to put the `dir` in the configuration file.
 
 Finally run:
 
